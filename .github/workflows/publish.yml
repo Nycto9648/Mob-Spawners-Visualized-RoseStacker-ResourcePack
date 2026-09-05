@@ -14,7 +14,22 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+
+      - name: Read Minecraft versions from release notes
+        id: minecraft_versions
+        shell: bash
+        env:
+          RELEASE_BODY: ${{ github.event.release.body }}
+        run: |
+          set -euo pipefail
+
+          DEFAULT_VERSIONS=">=1.21.4 <=26.2"
+          VERSION_LINE="$(printf '%s\n' "$RELEASE_BODY" | sed -nE 's/^[[:space:]]*Minecraft versions:[[:space:]]*(.+)[[:space:]]*$/\1/ip' | head -n 1)"
+          GAME_VERSIONS="${VERSION_LINE:-$DEFAULT_VERSIONS}"
+
+          echo "Using Minecraft versions: $GAME_VERSIONS"
+          echo "value=$GAME_VERSIONS" >> "$GITHUB_OUTPUT"
 
       - name: Build resource-pack ZIP
         shell: bash
@@ -67,7 +82,7 @@ jobs:
           changelog: ${{ github.event.release.body }}
 
           loaders: minecraft
-          game-versions: ">=1.21.4 <=26.2"
+          game-versions: ${{ steps.minecraft_versions.outputs.value }}
           game-version-filter: releases
           environment: client
 
