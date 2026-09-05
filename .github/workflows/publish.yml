@@ -58,7 +58,7 @@ jobs:
 
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-          modrinth-id: jDHE5lOR
+          modrinth-id: VIB2yHNB
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
           name: ${{ github.event.release.name }}
