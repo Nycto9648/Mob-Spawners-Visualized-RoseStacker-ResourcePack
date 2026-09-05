@@ -1,0 +1,76 @@
+name: Publish resource pack
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Publish to GitHub and Modrinth
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build resource-pack ZIP
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+
+          PACK_META="$(find . -type f -name pack.mcmeta -not -path './.git/*' -print -quit)"
+
+          if [[ -z "$PACK_META" ]]; then
+            echo "Could not find pack.mcmeta anywhere in the repository."
+            exit 1
+          fi
+
+          PACK_ROOT="$(dirname "$PACK_META")"
+          SAFE_TAG="$(printf '%s' "$RELEASE_TAG" | tr '/\\ ' '---')"
+          OUTPUT_DIR="$GITHUB_WORKSPACE/build"
+          OUTPUT_FILE="$OUTPUT_DIR/Mob-Spawners-Visualized-$SAFE_TAG.zip"
+
+          mkdir -p "$OUTPUT_DIR"
+
+          (
+            cd "$PACK_ROOT"
+            zip -r "$OUTPUT_FILE" . \
+              -x '.git/*' \
+                 '.github/*' \
+                 'build/*' \
+                 '*.zip'
+          )
+
+          test -s "$OUTPUT_FILE"
+          unzip -l "$OUTPUT_FILE" | grep -q 'pack.mcmeta'
+
+          echo "Created $OUTPUT_FILE"
+
+      - name: Publish release file to GitHub and Modrinth
+        uses: Kira-NT/mc-publish@v3
+        with:
+          files: build/*.zip
+
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          modrinth-id: jDHE5lOR
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          name: ${{ github.event.release.name }}
+          version: ${{ github.event.release.tag_name }}
+          version-type: release
+          changelog: ${{ github.event.release.body }}
+
+          loaders: minecraft
+          game-versions: ">=1.21.4 <=26.2"
+          game-version-filter: releases
+          environment: client
+
+          retry-attempts: 2
+          retry-delay: 10000
+          fail-mode: fail
