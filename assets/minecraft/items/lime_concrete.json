@@ -1,0 +1,61 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:component",
+    "component": "minecraft:custom_name",
+    "cases": [
+      {
+        "when": [
+          { "text": "Deposit x1", "color": "green" },
+          { "text": "Deposit x1", "color": "green", "italic": false },
+          { "text": "", "extra": [{ "text": "Deposit x1", "color": "green" }] },
+          { "text": "", "extra": [{ "text": "Deposit x1", "color": "green", "bold": false, "italic": false, "obfuscated": false, "strikethrough": false, "underlined": false }] }
+        ],
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/1"
+        }
+      },
+      {
+        "when": [
+          { "text": "Deposit x8", "color": "green" },
+          { "text": "Deposit x8", "color": "green", "italic": false },
+          { "text": "", "extra": [{ "text": "Deposit x8", "color": "green" }] },
+          { "text": "", "extra": [{ "text": "Deposit x8", "color": "green", "bold": false, "italic": false, "obfuscated": false, "strikethrough": false, "underlined": false }] }
+        ],
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/8"
+        }
+      },
+      {
+        "when": [
+          { "text": "Deposit x16", "color": "green" },
+          { "text": "Deposit x16", "color": "green", "italic": false },
+          { "text": "", "extra": [{ "text": "Deposit x16", "color": "green" }] },
+          { "text": "", "extra": [{ "text": "Deposit x16", "color": "green", "bold": false, "italic": false, "obfuscated": false, "strikethrough": false, "underlined": false }] }
+        ],
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/16"
+        }
+      },
+      {
+        "when": [
+          { "text": "Deposit x64", "color": "green" },
+          { "text": "Deposit x64", "color": "green", "italic": false },
+          { "text": "", "extra": [{ "text": "Deposit x64", "color": "green" }] },
+          { "text": "", "extra": [{ "text": "Deposit x64", "color": "green", "bold": false, "italic": false, "obfuscated": false, "strikethrough": false, "underlined": false }] }
+        ],
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/64"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "minecraft:block/lime_concrete"
+    }
+  }
+}
