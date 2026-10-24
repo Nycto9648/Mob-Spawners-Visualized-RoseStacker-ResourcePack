@@ -33,8 +33,6 @@ jobs:
 
       - name: Build resource-pack ZIP
         shell: bash
-        env:
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           set -euo pipefail
 
@@ -46,9 +44,8 @@ jobs:
           fi
 
           PACK_ROOT="$(dirname "$PACK_META")"
-          SAFE_TAG="$(printf '%s' "$RELEASE_TAG" | tr '/\\ ' '---')"
           OUTPUT_DIR="$GITHUB_WORKSPACE/build"
-          OUTPUT_FILE="$OUTPUT_DIR/Mob-Spawners-Visualized-$SAFE_TAG.zip"
+          OUTPUT_FILE="$OUTPUT_DIR/§d§lRose§5§lStacker §f§lIcons.zip"
 
           mkdir -p "$OUTPUT_DIR"
 
@@ -76,7 +73,7 @@ jobs:
           modrinth-id: VIB2yHNB
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
-          name: ${{ github.event.release.name }}
+          name: §d§lRose§5§lStacker §f§lIcons
           version: ${{ github.event.release.tag_name }}
           version-type: release
           changelog: ${{ github.event.release.body }}
