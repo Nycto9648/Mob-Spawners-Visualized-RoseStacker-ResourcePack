@@ -73,7 +73,7 @@ jobs:
           modrinth-id: VIB2yHNB
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
-          name: §d§lRose§5§lStacker §f§lIcons
+          name: ${{ github.event.release.name }}
           version: ${{ github.event.release.tag_name }}
           version-type: release
           changelog: ${{ github.event.release.body }}
